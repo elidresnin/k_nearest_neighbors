@@ -16,20 +16,27 @@ class DigitMatcher:
             d.set_similarity(digit)
 
     def most_similar(self):
-        # Needs implementation
         return sorted(self.digits, key = lambda x: x.similarity, reverse = True)[0]
 
     def find_k_most_similar(self, k):
-        # Needs implementation
         return sorted(self.digits, key = lambda x: x.similarity, reverse = True)[: k]
 
     def k_nearest_neighbors(self, k):
-        # Needs implementation
         return mode([x.label for x in self.find_k_most_similar(k)])
 
     def weighted_k_nearest_neighbors(self, k):
-        # Needs implementation
-        return 0
+        # Get the k most similar digits
+        k_neighbors = self.find_k_most_similar(k)
+        weighted_votes = {}
+        for digit in k_neighbors:
+            label = digit.get_label()
+            weight = digit.get_similarity()
+            if label in weighted_votes:
+                weighted_votes[label] += weight
+            else:
+                weighted_votes[label] = weight
+        # Return the label with the highest total weighted vote
+        return max(weighted_votes, key=weighted_votes.get)
 
     def get_digits(self):
         return self.digits

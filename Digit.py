@@ -17,23 +17,7 @@ class Digit:
         return self.label
 
     def set_similarity(self, other):
-        '''
-        totalSame = 28 * 28
-        for i in range(28):
-            filledFirst = 0
-            filledSecond = 0
-            for j in range(28):
-                if self.pixels[i][j] == 1:
-                    filledFirst += 1
-                if  self.pixels[j][i] == 1:
-                    filledFirst += 1
-                if other.pixels[i][j] == 1:
-                    filledSecond += 1
-                if other.pixels[j][i] == 1:
-                    filledSecond += 1
-            totalSame -= abs(filledFirst - filledSecond)
-        self.similarity = totalSame/(2*28*28)
-        '''
+
         total = 0
         for i in range(28):
             for j in range(28):
@@ -58,7 +42,12 @@ class Digit:
 
     def __str__(self):
         display = f"label = {self.label} \n"
-        display += f"similarity = {self.get_similarity()} \n|"
+        # display += f"similarity = {self.get_similarity()} \n|"
+        if self.get_similarity() == 0:
+            display += " " * 30 + "\n|"
+        else:
+            display += f"similarity = {self.get_similarity():.5f}"
+            display += " " * 10 + "\n|"
         display += "-" * 28 + "|\n|"
         for row in self.pixels:
             for p in row:

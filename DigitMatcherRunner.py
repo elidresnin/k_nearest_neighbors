@@ -47,17 +47,24 @@ class DigitMatcherRunner:
 
         # Get test digits
         test_digits = DigitMatcherRunner.populate_array_of_test_digits("test.csv")
-        firstDigit = test_digits[0]
+        testDigit = test_digits[0]
 
         # Testing Activity 4
         print("Activity 4 - Find most similar")
-        digit_collection.compute_similarity(firstDigit)
-        print(firstDigit)
+        digit_collection.compute_similarity(testDigit)
+        # print(firstDigit)
         print(digit_collection.most_similar())
 
         print("Activity 5 - Find kNN")
-        PrintHelper.print(firstDigit, digit_collection.find_k_most_similar(3))
-        print(digit_collection.k_nearest_neighbors(3))
+        k = 3
+        kNN = digit_collection.find_k_most_similar(k)
+        print("kNN digit's label is " + str(digit_collection.k_nearest_neighbors(k)))
+        PrintHelper.print(firstDigit, kNN)
+        # print(digit_collection.k_nearest_neighbors(3))
+
+        print("Activity 6 - Weighted kNN")
+        print("Weighted kNN digit's label is " + str(digit_collection.k_nearest_neighbors(k)))
+        PrintHelper.print(firstDigit, kNN)
 
 if __name__ == "__main__":
     DigitMatcherRunner.main()
