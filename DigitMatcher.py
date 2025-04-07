@@ -1,4 +1,5 @@
 from Digit import Digit
+from statistics import mode
 
 class DigitMatcher:
     def __init__(self, file_path):
@@ -15,15 +16,16 @@ class DigitMatcher:
             d.set_similarity(digit)
 
     def most_similar(self):
+        # Needs implementation
         return sorted(self.digits, key = lambda x: x.similarity, reverse = True)[0]
 
     def find_k_most_similar(self, k):
         # Needs implementation
-        return None
+        return sorted(self.digits, key = lambda x: x.similarity, reverse = True)[: k]
 
     def k_nearest_neighbors(self, k):
         # Needs implementation
-        return 0
+        return mode([x.label for x in self.find_k_most_similar(k)])
 
     def weighted_k_nearest_neighbors(self, k):
         # Needs implementation

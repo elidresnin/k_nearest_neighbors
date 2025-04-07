@@ -1,5 +1,6 @@
 from DigitMatcher import DigitMatcher
 from Digit import Digit
+from PrintHelper import PrintHelper
 
 class DigitMatcherRunner:
     @staticmethod
@@ -12,16 +13,12 @@ class DigitMatcherRunner:
                 for line in f:
                     # Split the line into pixel values
                     values = line.strip().split(',')
-
-                    # Check if we have the expected number of pixels (784 for 28x28)
-                    if len(values) != 784:
-                        raise ValueError(f"Expected 784 pixel values, got {len(values)}")
-
+                    label = int(values[0])
                     # Convert pixel values to integers (0 or 1)
                     pixels = [0 if int(x) == 0 else 1 for x in values]
 
                     # Create a Digit object with a dummy label (-1) since test data has no labels
-                    test_digit = Digit(-1, pixels)
+                    test_digit = Digit(label, pixels)
                     test_digits.append(test_digit)
 
             return test_digits
@@ -38,20 +35,29 @@ class DigitMatcherRunner:
         # Test Activity 2
         print("Activity 2 - Read digits from an input file")
         digit_collection = DigitMatcher("small_train.csv")
-        print(digit_collection.get_digits()[0])
+        #print(digit_collection.get_digits()[0])
 
         # Testing Activity 3
         print("Activity 3 - Compare two digits")
         firstDigit = digit_collection.get_digits()[1]
         secondDigit = digit_collection.get_digits()[5]
         firstDigit.set_similarity(secondDigit)
-        print(firstDigit)
-        print(secondDigit)
+        #print(firstDigit)
+        #print(secondDigit)
 
-        print("Activity 4 find most sim")
+        # Get test digits
+        test_digits = DigitMatcherRunner.populate_array_of_test_digits("test.csv")
+        firstDigit = test_digits[0]
+
+        # Testing Activity 4
+        print("Activity 4 - Find most similar")
         digit_collection.compute_similarity(firstDigit)
+        print(firstDigit)
         print(digit_collection.most_similar())
 
+        print("Activity 5 - Find kNN")
+        PrintHelper.print(firstDigit, digit_collection.find_k_most_similar(3))
+        print(digit_collection.k_nearest_neighbors(3))
 
 if __name__ == "__main__":
     DigitMatcherRunner.main()
