@@ -42,9 +42,16 @@ class DigitMatcherRunner:
 
         # Testing Activity 3
         print("Activity 3 - Compare two digits")
-        digit_collection.get_digits()[1].set_similarity(digit_collection.get_digits()[0])
-        print(digit_collection.get_digits()[0])
-        print(digit_collection.get_digits()[1])
+        firstDigit = digit_collection.get_digits()[1]
+        secondDigit = digit_collection.get_digits()[5]
+        firstDigit.set_similarity(secondDigit)
+        print(firstDigit)
+        print(secondDigit)
+
+        print("Activity 4 find most sim")
+        digit_collection.compute_similarity(firstDigit)
+        print(digit_collection.most_similar())
+
 
 if __name__ == "__main__":
     DigitMatcherRunner.main()

@@ -15,8 +15,7 @@ class DigitMatcher:
             d.set_similarity(digit)
 
     def most_similar(self):
-        # Needs implementation
-        return None
+        return sorted(self.digits, key = lambda x: x.similarity, reverse = True)[0]
 
     def find_k_most_similar(self, k):
         # Needs implementation

@@ -17,7 +17,23 @@ class Digit:
         return self.label
 
     def set_similarity(self, other):
-        pass
+
+        count = (28*28)
+
+        #mati's way
+        # for i in range(28):
+        #     rowSumFirst = 0
+        #     rowSumSecond = 0
+        #     for j in range(28):
+        #         if self.pixels[i][j] == 1:
+        #             rowSumFirst +=1
+        #         if other.pixels[i][j] == 1:
+        #             rowSumSecond += 1
+        #
+        #     count -= abs(rowSumFirst - rowSumSecond)
+        # self.similarity = count / (28*28)
+        self.similarity = (sum(1 for row in range(28) for col in range(28) if self.pixels[row][col]== other.pixels[row][col])) / 784.0
+
 
     def get_similarity(self):
         return self.similarity
@@ -35,7 +51,7 @@ class Digit:
 
     def __str__(self):
         display = f"label = {self.label}                     \n"
-        display += "similarity = {:.13f}   \n|" if self.get_similarity() > 0 else "                              \n|"
+        display += f"similarity = { self.get_similarity()}                      \n"
         display += "-" * 28 + "|\n|"
         for row in self.pixels:
             for p in row:
