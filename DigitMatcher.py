@@ -25,7 +25,6 @@ class DigitMatcher:
         return mode([x.label for x in self.find_k_most_similar(k)])
 
     def weighted_k_nearest_neighbors(self, k):
-        # Get the k most similar digits
         k_neighbors = self.find_k_most_similar(k)
         weighted_votes = {}
         for digit in k_neighbors:
@@ -35,7 +34,6 @@ class DigitMatcher:
                 weighted_votes[label] += weight
             else:
                 weighted_votes[label] = weight
-        # Return the label with the highest total weighted vote
         return max(weighted_votes, key=weighted_votes.get)
 
     def get_digits(self):

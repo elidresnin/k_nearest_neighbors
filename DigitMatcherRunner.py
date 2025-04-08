@@ -46,8 +46,8 @@ class DigitMatcherRunner:
         #print(secondDigit)
 
         # Get test digits
-        test_digits = DigitMatcherRunner.populate_array_of_test_digits("test.csv")
-        testDigit = test_digits[0]
+        test_digits = DigitMatcherRunner.populate_array_of_test_digits("small_test.csv")
+        testDigit = test_digits[2]
 
         # Testing Activity 4
         print("Activity 4 - Find most similar")
@@ -60,11 +60,28 @@ class DigitMatcherRunner:
         kNN = digit_collection.find_k_most_similar(k)
         print("kNN digit's label is " + str(digit_collection.k_nearest_neighbors(k)))
         PrintHelper.print(firstDigit, kNN)
-        # print(digit_collection.k_nearest_neighbors(3))
+        print(digit_collection.k_nearest_neighbors(3))
+
 
         print("Activity 6 - Weighted kNN")
         print("Weighted kNN digit's label is " + str(digit_collection.k_nearest_neighbors(k)))
         PrintHelper.print(firstDigit, kNN)
+
+        print("\nActivity 7 - Test Accuracy")
+        k = 3
+        correct_predictions = 0
+        total_tests = len(test_digits)
+
+        for test_digit in test_digits:
+            digit_collection.compute_similarity(test_digit)
+            predicted_label = digit_collection.k_nearest_neighbors(k)
+            true_label = test_digit.get_label()
+            if predicted_label == true_label:
+                correct_predictions += 1
+
+        accuracy = correct_predictions / total_tests
+        print("\nActivity 7 - Test Accuracy")
+        print(f"Accuracy using k = {k}: {accuracy:.2%}")
 
 if __name__ == "__main__":
     DigitMatcherRunner.main()
