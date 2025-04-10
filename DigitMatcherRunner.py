@@ -34,59 +34,82 @@ class DigitMatcherRunner:
     def main():
         # Test Activity 2
         print("Activity 2 - Read digits from an input file")
-        digit_collection = DigitMatcher("tiny_train.csv")
-        #print(digit_collection.get_digits()[0])
+        # digit_collection = DigitMatcher("small_train.csv")
+        # print(digit_collection.get_digits()[0])
 
         # Testing Activity 3
         print("Activity 3 - Compare two digits")
-        firstDigit = digit_collection.get_digits()[1]
-        secondDigit = digit_collection.get_digits()[5]
-        firstDigit.set_similarity(secondDigit)
+        # firstDigit = digit_collection.get_digits()[1]
+        # secondDigit = digit_collection.get_digits()[5]
+        # firstDigit.set_similarity(secondDigit)
         #print(firstDigit)
         #print(secondDigit)
 
         # Get test digits
-        test_digits = DigitMatcherRunner.populate_array_of_test_digits("tiny_test.csv")
-        testDigit = test_digits[0]
+        # test_digits = DigitMatcherRunner.populate_array_of_test_digits("small_test.csv")
+        # testDigit = test_digits[10]
 
         # Testing Activity 4
         print("Activity 4 - Find most similar")
-        digit_collection.compute_similarity(testDigit)
+        # digit_collection.compute_similarity(testDigit)
         # print(firstDigit)
-        print(digit_collection.most_similar())
+        # print(digit_collection.most_similar())
 
         print("Activity 5 - Find kNN")
-        k = 3
-        kNN = digit_collection.find_k_most_similar(k)
-        print("kNN digit's label is " + str(digit_collection.k_nearest_neighbors(k)))
-        PrintHelper.print(firstDigit, kNN)
+        k = 5
+        # kNN = digit_collection.find_k_most_similar(k)
+        # print("kNN digit's label is " + str(digit_collection.k_nearest_neighbors(k)))
+        # PrintHelper.print(firstDigit, kNN)
         # print(digit_collection.k_nearest_neighbors(3))
 
 
         print("Activity 6 - Weighted kNN")
-        print("Weighted kNN digit's label is " + str(digit_collection.k_nearest_neighbors(k)))
-        PrintHelper.print(firstDigit, kNN)
+        # print("Weighted kNN digit's label is " + str(digit_collection.weighted_k_nearest_neighbors(k)))
+        # PrintHelper.print(firstDigit, kNN)
 
         print("\nActivity 7 - Test Accuracy")
 
-        correct_predictions = 0
+        # Read digits from an input file
+        digit_collection = DigitMatcher("tiny_train.csv")
+
+        # Get test digits
+        test_digits = DigitMatcherRunner.populate_array_of_test_digits("tiny_test.csv")
+
+        k = 3
+
+        sim_correct_predictions = 0
+        knn_correct_predictions = 0
+        wknn_correct_predictions = 0
+
         total_tests = len(test_digits)
 
         for test_digit in test_digits:
             digit_collection.compute_similarity(test_digit)
-            predicted_label = digit_collection.k_nearest_neighbors(k)
+            sim_predicted_label = digit_collection.most_similar()
+            knn_predicted_label = digit_collection.k_nearest_neighbors(k)
+            wknn_predicted_label = digit_collection.weighted_k_nearest_neighbors(k)
             true_label = test_digit.get_label()
-            if predicted_label == true_label:
-                correct_predictions += 1
+            print("--------")
+            if sim_predicted_label.get_label() == true_label:
+                sim_correct_predictions += 1
             else:
-                print("guessed label:" + str(predicted_label))
-                print("correct label:" + str(true_label))
+                print("most sim guessed label: " + str(sim_predicted_label.get_label())+ "; correct label: " + str(true_label))
 
-        accuracy = correct_predictions / total_tests
-        print("Number of correct: " + str(correct_predictions))
-        print("Number of incorrect: " + str(total_tests - correct_predictions))
+            if knn_predicted_label == true_label:
+                knn_correct_predictions += 1
+            else:
+                print("knn guessed label: " + str(knn_predicted_label) + "; correct label: " + str(true_label))
 
-        print(f"Accuracy using k = {k}: {accuracy:.2%}")
+            if wknn_predicted_label == true_label:
+                wknn_correct_predictions += 1
+            else:
+                print("wknn guessed label: " + str(wknn_predicted_label) + "; correct label: " + str(true_label))
+
+
+        print("------------------------------------------------------------------------")
+        print(f"Most Similar Accuracy: {(sim_correct_predictions / total_tests):.2%}")
+        print(f"kNN Accuracy using k = {k}: {(knn_correct_predictions / total_tests):.2%}")
+        print(f"Weighted kNN most similar Accuracy using k = {k}: {(wknn_correct_predictions / total_tests):.2%}")
 
 if __name__ == "__main__":
     DigitMatcherRunner.main()

@@ -17,14 +17,12 @@ class Digit:
         return self.label
 
     def set_similarity(self, other):
-
         total = 0
         for i in range(28):
             for j in range(28):
                 if self.pixels[i][j] == other.pixels[i][j]:
                     total += 1
-        self.similarity = total/(28*28)
-
+        self.similarity = total / (28 * 28)
 
     def get_similarity(self):
         return self.similarity
