@@ -70,12 +70,12 @@ class DigitMatcherRunner:
         print("\nActivity 7 - Test Accuracy")
 
         # Read digits from an input file
-        digit_collection = DigitMatcher("tiny_train.csv")
+        digit_collection = DigitMatcher("small_train.csv")
 
         # Get test digits
-        test_digits = DigitMatcherRunner.populate_array_of_test_digits("tiny_test.csv")
+        test_digits = DigitMatcherRunner.populate_array_of_test_digits("small_test.csv")
 
-        k = 3
+        k = 8
 
         sim_correct_predictions = 0
         knn_correct_predictions = 0

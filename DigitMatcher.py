@@ -27,13 +27,10 @@ class DigitMatcher:
     def weighted_k_nearest_neighbors(self, k):
         k_neighbors = self.find_k_most_similar(k)
         weighted_votes = {}
-        for digit in k_neighbors:
+        for rank, digit in enumerate(k_neighbors):
+            weight = k - rank
             label = digit.get_label()
-            weight = digit.get_similarity()
-            if label in weighted_votes:
-                weighted_votes[label] += weight
-            else:
-                weighted_votes[label] = weight
+            weighted_votes[label] = weighted_votes.get(label, 0) + weight
         return max(weighted_votes, key=weighted_votes.get)
 
     def get_digits(self):
